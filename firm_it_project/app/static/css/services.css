@@ -1,0 +1,234 @@
+/* === ОБЩИЕ СТИЛИ === */
+/* === ОБЩИЕ СТИЛИ === */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #121212;
+    background-image: none;
+    background-repeat: no-repeat;
+    background-size: 250% 250%;
+    background-attachment: fixed;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    animation: subtlePaintMove 16s ease-in-out infinite;
+}
+
+@keyframes subtlePaintMove {
+    0% {
+        background-position: 40% 60%, 60% 40%, 50% 50%;
+    }
+    25% {
+        background-position: 42% 58%, 58% 42%, 52% 48%;
+    }
+    50% {
+        background-position: 45% 55%, 55% 45%, 55% 45%;
+    }
+    75% {
+        background-position: 42% 58%, 58% 42%, 52% 48%;
+    }
+    100% {
+        background-position: 40% 60%, 60% 40%, 50% 50%;
+    }
+}
+
+
+
+/* === ОСТАЛЬНЫЕ СТИЛИ === */
+.services-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    z-index: 1;
+    position: relative;
+}
+
+.service {
+    background: linear-gradient(145deg, rgba(255,193,7,0.1), rgba(255,193,7,0.08));
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    animation: fadeInCard 0.6s ease forwards;
+    padding: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes fadeInCard {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.service:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.service img {
+    width: 250px;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.service img:hover {
+    transform: scale(1.03);
+    filter: brightness(1.1);
+}
+
+.service-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 0;
+    gap: 10px;
+}
+
+.service h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #ffc107;
+    transition: color 0.3s ease;
+}
+
+.service:hover h2 {
+    color: #ffca28;
+}
+
+.service p {
+    color: #ccc;
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffc107;
+    margin-bottom: 12px;
+}
+
+.price span {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.price span.changed {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.price span.new {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.variant-select {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    background-color: rgba(255, 193, 7, 0.05);
+    color: #fff;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    max-width: 300px;
+}
+
+.variant-select:hover {
+    border-color: rgba(255, 193, 7, 0.5);
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.variant-select:focus {
+    outline: none;
+    border-color: #ffc107;
+    background-color: rgb(100, 89, 57);
+}
+
+.buy-button {
+    padding: 10px 14px;
+    background-color: #ff9800;
+    color: #121212;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-size: 15px;
+    position: relative;
+    overflow: hidden;
+    max-width: 200px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buy-button span {
+    display: inline-block;
+    transition: opacity 0.3s ease;
+}
+
+.buy-button.added span {
+    opacity: 0;
+}
+
+.buy-button:hover {
+    background-color: #e68900;
+    transform: scale(1.03);
+}
+
+.buy-button:active {
+    transform: scale(0.98);
+}
+
+.buy-button.added::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    color: white;
+    animation: flash 0.6s ease;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    padding: 4px 8px;
+}
+
+@keyframes flash {
+    0% { opacity: 0; transform: scale(0.5) translate(-50%, -50%); }
+    50% { opacity: 1; transform: scale(1.2) translate(-50%, -50%); }
+    100% { opacity: 0; transform: scale(0.8) translate(-50%, -50%); }
+}
+
+@media (max-width: 768px) {
+    .service {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .service img {
+        width: 100%;
+        height: auto;
+    }
+
+    .variant-select {
+        width: 100%;
+    }
+}

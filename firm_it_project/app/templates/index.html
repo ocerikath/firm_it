@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+
+    <div class="hero-image">
+        <section class="hero-section">
+            
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1>Автоматизация бизнеса с 1С</h1>
+                <p>Оптимизируйте ваши бизнес-процессы с помощью наших решений.</p>
+                <a href="#contact" class="cta-button">Связаться с нами</a>
+            </div>
+        </section>
+    </div>
+    
+
+
+
+    
+    <section class="fade-in">
+    <div class="section-divider"></div>
+
+    <!-- Секция 2: О компании -->
+    <section class="about-section">
+        <div class="background-animation">
+            <img src="/static/images/2522453.jpg" alt="Image 1">
+            <img src="/static/images/2522452.jpg" alt="Image 2">
+            <img src="/static/images/1220.jpg" alt="Image 3">
+        </div>
+        <div class="about-container">
+            <div class="about-text">
+                <h2>О компании</h2>
+                <p class="lead">Мы — ООО "Фирма "Информационные технологии", эксперты в автоматизации управления и учета на базе программных продуктов «1С».</p>
+                <p class="highlight">Наша цель — сделать ваш бизнес эффективнее, предоставив полный спектр услуг по автоматизации:</p>
+                <ul class="services-list">
+                    <li>
+                        <span class="icon"><img src="/static/icons/graph2.png" alt="Graph"></span>Подбор и демонстрация программного обеспечения
+                    </li>
+                    <li>
+                        <span class="icon"><img src="/static/icons/gear.png" alt="Gear"></span>Поставка и внедрение ПО
+                    </li>
+                    <li>
+                        <span class="icon"><img src="/static/icons/refresh.png" alt="Refresh"></span>Обновление и сопровождение программ
+                    </li>
+                    <li>
+                        <span class="icon"><img src="/static/icons/book.png" alt="Book"></span>Обучение пользователей и ИТ-специалистов
+                    </li>
+                    <li>
+                        <span class="icon icon-shield"><img src="/static/icons/shield.png" alt="Shield"></span>Техническая поддержка и интеграция
+                    </li>
+                </ul>
+                
+            </div>
+            <div class="about-image">
+                <img src="/static/images/image_on_2.png" alt="О компании">
+            </div>
+        </div>
+    </section>
+    </section>
+
+    <section class="fade-in">
+    <div class="section-divider"></div>
+
+    <!-- Секция 2: Наши преимущества -->
+    <section class="advantages-section">
+        <h2>Наши преимущества</h2>
+        <div class="advantages-grid">
+            <!-- Карточка 1: Профессионализм -->
+            <div class="advantage-item">
+                <div class="front">
+                    <img src="/static/images/prof.png" alt="Профессионализм">
+                    <h3>Профессионализм</h3>
+                </div>
+                <div class="back">
+                    <p>Команда опытных специалистов с сертификатами 1С.</p>
+                    <button class="more-info">Подробнее</button>
+                    <p class="detailed-info">Мы работаем с 2010 года и знаем все тонкости настройки и внедрения программ 1С. Наши специалисты проходят регулярное обучение и сертификацию, чтобы быть в курсе последних обновлений и технологий.</p>
+                </div>
+            </div>
+            <!-- Карточка 2: Качество -->
+            <div class="advantage-item">
+                <div class="front">
+                    <img src="/static/images/kachestvo.png" alt="Качество">
+                    <h3>Качество</h3>
+                </div>
+                <div class="back">
+                    <p>Гарантия высокого качества услуг и индивидуальный подход.</p>
+                    <button class="more-info">Подробнее</button>
+                    <p class="detailed-info">Мы предоставляем полный цикл услуг, начиная с консультации и заканчивая технической поддержкой.</p>
+                </div>
+            </div>
+            <!-- Карточка 3: Скорость -->
+            <div class="advantage-item">
+                <div class="front">
+                    <img src="/static/images/skorost.png" alt="Скорость">
+                    <h3>Скорость</h3>
+                </div>
+                <div class="back">
+                    <p>Быстрое внедрение и адаптация под нужды клиента.</p>
+                    <button class="more-info">Подробнее</button>
+                    <p class="detailed-info">Среднее время выполнения заказов — 3 дня. Мы ценим ваше время!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    </section>
+
+    <section class="fade-in">
+    <div class="section-divider"></div>
+    
+
+    <section class="contact-section" id="contact">
+        <div class="form-container">
+            <div class="form-text">
+                <h2>ООО "Фирма "Информационные технологии"</h2>
+                <p>Автоматизируй учетный процесс — Освободи ресурсы для развития!</p>
+                <p>Профессионалы в сфере IT</p>
+                <p>+7(499) 504-04-85</p>
+                <a href="mailto:it@firma-it.ru" style="color: #ff9800; font-family: Exo;">it@firma-it.ru</a>
+                <p>Московский проспект, 44, Пушкино, Московская обл.</p>
+                
+            </div>
+            <div class="form-background">
+                <form id="feedback-form" method="POST" action="{{ url_for('main.submit_feedback') }}">
+                    <!-- Поле ИНН компании (необязательное) -->
+                    <div class="form-group">
+                        <input type="text" name="inn" placeholder="ИНН компании" maxlength="12">
+                    </div>
+    
+                    <!-- Поле Контактное лицо (обязательное) -->
+                    <div class="form-group">
+                        <input type="text" name="name" id="name" placeholder="Контактное лицо (ФИО)" maxlength="255">
+                        <span id="name-error" class="error-message"></span>
+                    </div>
+    
+                    <!-- Поле Номер телефона (обязательное) -->
+                    <div class="form-group">
+                        <input type="tel" name="phone" id="phone" placeholder="Номер телефона" maxlength="18">
+                        <span id="phone-error" class="error-message"></span>
+                    </div>
+    
+                    <!-- Поле Почта (необязательное) -->
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Почта (email)" maxlength="255">
+                    </div>
+    
+                    <!-- Кнопка отправки -->
+                    <button type="submit" class="form-button" id="submit-button">
+                        <span id="button-text">Оставить заявку</span>
+                        <span class="loading-spinner"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+ 
+
+    
+    <section class="fade-in">
+        <div class="section-divider"></div>
+    <!-- Секция 5: Ответы на вопросы -->
+    <section class="faq-section">
+        <h2>Часто задаваемые вопросы</h2>
+        <div class="faq-item">
+            <button class="faq-question">Какие услуги вы предоставляете? <span class="arrow">▼</span></button>
+            <div class="faq-answer">
+                <p>Мы занимаемся внедрением, поддержкой и обучением по продуктам 1С.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">Сколько стоит внедрение 1С? <span class="arrow">▼</span></button>
+            <div class="faq-answer">
+                <p>Стоимость зависит от объема работ. Свяжитесь с нами для расчета.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <button class="faq-question">Какие у вас есть скиды и бонусы? <span class="arrow">▼</span></button>
+            <div class="faq-answer">
+                <p>Для постоянных клиентов у нас действуют индивидуальные скидкы.</p>
+            </div>
+        </div>
+
+        <!-- Добавляй сколько угодно вопросов и ответов -->
+    </section>
+    </section>
+    
+    <section class="fade-in">
+        <div class="section-divider"></div>
+        <section class="map-section">
+            <h2>Наше местоположение</h2>
+            <div class="map-container">
+                <iframe 
+                    src="https://yandex.ru/map-widget/v1/?ll=37.857907,56.003276&z=14&pt=37.857907,56.003276,pm2grl" 
+                    width="100%" 
+                    height="400" 
+                    frameborder="0" 
+                    allowfullscreen="true">
+                </iframe>
+            </div>
+        </section>
+    </section>
+    <style>
+        .modal-content{
+            display: none;
+        }
+        .cart{
+            display:none;
+        }
+    </style>    
+    
+    {% endblock %}

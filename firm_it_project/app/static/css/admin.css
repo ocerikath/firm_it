@@ -1,0 +1,161 @@
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.orders-accordion {
+    margin-top: 30px;
+}
+
+.order-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    transition: background-color 0.3s;
+}
+
+.order-header:hover {
+    background-color: #e9ecef;
+}
+
+.order-main-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.order-id {
+    font-weight: bold;
+    color: #333;
+}
+
+.order-date {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.order-status {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    text-transform: uppercase;
+}
+
+.order-status.new {
+    background: #ffeeba;
+    color: #856404;
+}
+
+.order-status.processing {
+    background: #bee5eb;
+    color: #0c5460;
+}
+
+.order-status.completed {
+    background: #c3e6cb;
+    color: #155724;
+}
+
+.order-summary {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.order-items-count {
+    color: #6c757d;
+}
+
+.order-total {
+    font-weight: bold;
+    color: #212529;
+}
+
+.toggle-icon {
+    font-size: 0.8em;
+    color: #6c757d;
+}
+
+.order-details {
+    padding: 20px;
+    border-top: 1px solid #eee;
+    display: none;
+}
+
+.client-info {
+    margin-bottom: 20px;
+}
+
+.client-info h3 {
+    margin-bottom: 10px;
+    color: #495057;
+}
+.client-info p {
+    color: black;
+}
+
+.order-items h3 {
+    color: black;
+}
+
+.order-items table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-items th, .order-items td {
+    padding: 10px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.order-items th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+}
+
+.empty-orders {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+    font-size: 1.1em;
+}
+
+.oreders-descr{
+    color: black;
+}
+
+.form-background{
+    display: none;
+}
+.cart{
+    display: none;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+}

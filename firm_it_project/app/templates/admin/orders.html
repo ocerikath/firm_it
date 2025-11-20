@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+
+<div class="admin-container">
+    <h1>Список заказов</h1>
+    
+    {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    
+    <div class="orders-accordion">
+        {% for order in orders %}
+        <div class="order-card">
+            <div class="order-header" onclick="toggleOrderDetails(this)">
+                
+
+                <div class="order-main-info">
+                    <span class="order-id">Заказ #{{ order.id }}</span>
+                    <span class="order-date">{{ order.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                    <span class="order-status {{ order.status }}">{{ order.status }}</span>
+                </div>
+                
+                <button class="btn-delete" data-order-id="{{ order['id'] }}">Удалить</button>
+
+                <div class="order-summary">
+                    <span class="order-items-count">
+                        {% if order.items %}
+                            {{ order['items']|length }} товар(ов)
+                        {% else %}
+                            Нет товаров
+                        {% endif %}
+                    </span>
+                    <span class="order-total">
+                        {{ "%.2f"|format(order.total_sum) }} ₽
+                    </span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+            </div>
+            
+            <div class="order-details">
+                <div class="client-info">
+                    <h3>Клиент:</h3>
+                    <p>{{ order.client_name }}</p>
+                    <p>{{ order.client_phone }}</p>
+                    {% if order.client_email %}<p>{{ order.client_email }}</p>{% endif %}
+                </div>
+                
+                {% if order.items %}
+                <div class="order-items">
+                    <h3>Состав заказа:</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Товар</th>
+                                <th>Кол-во</th>
+                                <th>Цена</th>
+                                <th>Сумма</th>
+                            </tr>
+                        </thead>
+                        <tbody class="oreders-descr">
+                            {% for item in order['items'] %}
+                            <tr>
+                                <td>
+                                    {{ item['product_name'] }}
+                                    {% if item['variant_name'] %}
+                                        ({{ item['variant_name'] }})
+                                    {% endif %}
+                                </td>
+                                <td>{{ item['quantity'] }}</td>
+                                <td>{{ "%.2f"|format(item.price) }} ₽</td>
+                                <td>{{ "%.2f"|format(item.quantity * item.price) }} ₽</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        
+        <div class="empty-orders">Нет заказов</div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/admin-orders.js') }}"></script>
+
+<script>
+function toggleOrderDetails(header) {
+    const orderCard = header.closest('.order-card');
+    const details = orderCard.querySelector('.order-details');
+    const icon = header.querySelector('.toggle-icon');
+    
+    if (details.style.display === 'none' || !details.style.display) {
+        details.style.display = 'block';
+        icon.textContent = '▲';
+    } else {
+        details.style.display = 'none';
+        icon.textContent = '▼';
+    }
+}
+
+// Инициализация - закрываем все детали при загрузке
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.order-details').forEach(details => {
+        details.style.display = 'none';
+    });
+});
+</script>
+{% endblock %}

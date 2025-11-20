@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+
+
+
+
+    
+<link rel="stylesheet" href="{{ url_for('static', filename='css/automat.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/services.css') }}">
+<div class="services-container">
+    <div id="pixi-background"></div>
+    <h1 style="grid-column: 1 / -1; text-align: center; font-size: 36px; color: #ffc107; margin-bottom: 20px;">Услуги</h1>
+    {% for service in services %}
+        <div class="service" data-service-id="{{ service.id }}">
+            <img src="{{ url_for('static', filename='images/services/' + service.image) }}" alt="{{ service.name }}">
+            <div class="service-content">
+                <h2>{{ service.name }}</h2>
+                <p>{{ service.description }}</p>
+                <p class="price" data-service-id="{{ service.id }}">
+                    Цена:
+                    <span>
+                        {% if service.variants %}
+                            {{ "{:,.0f}".format(service.variants[0].price|float).replace(",", " ") }} руб.
+                        {% else %}
+                            {{ "{:,.0f}".format(service.price|float).replace(",", " ") }} руб.
+                        {% endif %}
+                    </span>
+                </p>
+                {% if service.variants %}
+                    <select class="variant-select" data-service-id="{{ service.id }}">
+                        {% for variant in service.variants %}
+                            <option value="{{ variant.id }}" data-price="{{ variant.price }}">
+                                {{ variant.name }} - {{ "{:,.0f}".format(variant.price|float).replace(",", " ") }} руб.
+                            </option>
+                        {% endfor %}
+                    </select>
+                {% endif %}
+                <button class="buy-button add-to-cart-service"
+                        data-service-id="{{ service.id }}"
+                        {% if service.variants %}
+                            data-variant-id="{{ service.variants[0].id }}"
+                            data-require-variant="true"
+                        {% else %}
+                            data-no-variants="true"
+                        {% endif %}>
+                    <span>Добавить в корзину</span>
+                </button>
+
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const cartManager = new CartManager();
+
+        document.querySelectorAll('.variant-select').forEach(select => {
+            select.addEventListener('change', function() {
+                const serviceId = this.getAttribute('data-service-id');
+                const selectedOption = this.options[this.selectedIndex];
+                const price = selectedOption.getAttribute('data-price');
+                const priceElement = document.querySelector(`.price[data-service-id="${serviceId}"] span`);
+                priceElement.textContent = parseInt(price).toLocaleString('ru-RU') + ' руб.';
+
+                const button = document.querySelector(`.add-to-cart-service[data-service-id="${serviceId}"]`);
+                button.setAttribute('data-variant-id', selectedOption.value);
+            });
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('mousemove', e => {
+        const x = (e.clientX / window.innerWidth) * 100;
+        const y = (e.clientY / window.innerHeight) * 100;
+    
+        document.body.style.setProperty('--x1', `${20 + x * 0.05}%`);
+        document.body.style.setProperty('--y1', `${30 + y * 0.05}%`);
+        document.body.style.setProperty('--x2', `${80 - x * 0.05}%`);
+        document.body.style.setProperty('--y2', `${70 - y * 0.05}%`);
+    });
+    </script>
+ 
+    
+
+
+{% endblock %}

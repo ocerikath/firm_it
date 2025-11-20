@@ -1,0 +1,447 @@
+.automation-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    justify-content: flex-start; /* Изменено с center на flex-start для плотного расположения */
+    max-width: 1000px; /* Ограничиваем ширину контейнера, чтобы карточки не растягивались слишком широко */
+    margin: 0 auto; /* Центрируем контейнер на странице */
+}
+button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+.product-card {
+    position: relative;
+    width: calc(33.333% - 14px); /* Рассчитываем ширину карточки с учетом промежутков */
+    height: 200px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    opacity: 0.8;
+}
+
+.add-to-cart-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.product-card:hover .add-to-cart-label {
+    opacity: 1;
+}
+
+@keyframes addToCartAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.added-to-cart {
+    animation: addToCartAnimation 0.5s ease;
+}
+
+
+.product-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.product-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+
+/* Основные стили для модального окна */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.modal-content {
+    background-color: #2d2d2d;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh; /* Ограничение высоты */
+    overflow-y: auto; /* Вертикальная прокрутка */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: #ffffff; /* Белый текст */
+    scrollbar-width: none; /* Для Firefox */
+    -ms-overflow-style: none; /* Для IE и Edge */
+    font-family: 'Open Sans', sans-serif; /* Шрифт */
+}
+
+/* Стили для списка товаров */
+#cart-items-container {
+    max-height: 300px; /* Ограничение высоты списка */
+    overflow-y: auto;  /* Вертикальная прокрутка */
+    margin-bottom: 20px;
+    padding-right: 10px; /* Убираем смещение из-за скролла */
+    scrollbar-width: none; /* Для Firefox */
+    -ms-overflow-style: none; /* Для IE и Edge */
+}
+
+
+/* Скрытие полосы прокрутки для WebKit (Chrome, Safari) */
+#cart-items-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Скрамблер для вертикальной прокрутки */
+#cart-items-container::-webkit-scrollbar {
+    width: 8px;
+}
+/* Стили для карточки товара */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 12px;
+    gap: 10px;
+}
+
+.cart-item-name {
+    
+    font-size: 16px;
+    font-weight: 500;
+    color: #ffffff;
+    flex-grow: 1;
+    margin-bottom: 10px;
+    gap: 20px;
+
+}
+.counter-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+}
+.counter-block button {
+    width: 30px;
+    height: 30px;
+    background-color: #ff9800; /* Оранжевый */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.counter-block button:hover {
+    background-color: #e68900; /* Темнее оранжевый */
+}
+
+.counter {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.cart-item-quantity {
+    font-size: 14px;
+    color: #666;
+}
+
+.remove-from-cart {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.remove-from-cart:hover {
+    background-color: #ff1a1a;
+}
+
+/* Стили для формы */
+
+.form-background {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1); /* Светлый прозрачный фон */
+    border-radius: 10px;
+    width: auto;
+    max-width: none;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group input {
+    border: 1px solid #444; /* Темная граница */
+    border-radius: 8px;
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    color: #ffffff; /* Белый текст */
+    background-color: #1e1e1e; /* Темный фон */
+    box-sizing: border-box; /* Учитываем padding в размере */
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif; /* Шрифт */
+}
+
+.form-group input::placeholder {
+    color: #888; /* Серый плейсхолдер */
+}
+
+.form-button {
+    background-color: #ff9800; /* Оранжевый */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.form-button:hover {
+    background-color: #e68900; /* Темнее оранжевый */
+}
+
+
+.cart {
+    position: relative;
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: #ff4d4d;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
+}
+
+/* Добавляем в CSS */
+.pulse {
+    animation: pulse 0.5s;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Анимации для уведомления */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(20px); }
+}
+
+.alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 5px;
+    color: white;
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out;
+}
+
+.alert.success {
+    background-color: #4CAF50;
+}
+
+.alert.error {
+    background-color: #f44336;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+.cart-notification {
+    /* Существующие стили + */
+    animation: none; /* Отключаем по умолчанию */
+    will-change: transform, opacity; /* Для плавности */
+    z-index: 1000000;
+}
+
+.buy-button.added {
+    animation: buttonPulse 0.5s;
+    background-color: #4CAF50 !important;
+}
+
+@keyframes buttonPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+.cart-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    display: none; /* Скрыто по умолчанию */
+    z-index: 1000;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #ff9800; /* Оранжевый при наведении */
+}
+
+.updated {
+  animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+
+
+@media (max-width: 767px) {
+    .product-card {
+        width: calc(50% - 10px); /* По две карточки в ряд на мобильных устройствах */
+    }
+}
+
+@media (max-width: 480px) {
+    .product-card {
+        width: 100%; /* По одной карточке в ряд на очень маленьких экранах */
+    }
+}
+
+
+.cart-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.clear-cart-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.clear-cart-btn:hover {
+    background-color: #e03131;
+}
+
+.clear-confirm {
+    margin-top: 15px;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    animation: fadeIn 0.3s ease;
+}
+
+.clear-confirm p {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #ffc107;
+}
+
+.confirm-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.confirm-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.confirm-btn.yes {
+    background-color: #ff9800;
+    color: #121212;
+}
+
+.confirm-btn.no {
+    background-color: #444;
+    color: white;
+}
+
+.confirm-btn:hover {
+    opacity: 0.9;
+}
+
+.hidden {
+    display: none;
+}

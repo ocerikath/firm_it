@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Автоматизация{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/automat.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/automation-s.css') }}">
+
+<div class="automation-background">
+    <div class="automation-container">
+        {% for product in products %}
+            
+        <div class="product-card" data-product-id="{{ product.id }}">
+            <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}">
+            <div class="product-name">{{ product.name }}</div>
+            <div class="add-to-cart-label">Добавить в корзину</div>
+        </div>
+        
+        <style>
+            .btn-HG {
+                display: none !important;
+            }
+        </style>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/automat.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% if cart_items %}
+    {% for item in cart_items %}
+                <div class="cart-item"
+                data-item-id="{{ item.id }}"
+                data-type="{{ item.type }}"
+                {% if item.variant %}data-variant-id="{{ item.variant.id }}"{% endif %}
+                data-unit-price="{{ item.price if item.price is not none else 0 }}">
+            
+            <div class="cart-item-info">
+                <div class="cart-item-name">
+                    {{ item.name }}
+                </div>
+                
+                {% if item.price is not none %}
+                <div class="cart-item-price">
+                    {{ "%.2f"|format(item.price * item.quantity) }} руб.
+                </div>
+                {% endif %}
+
+                
+
+                <div class="counter-block">
+                    <button class="minus">-</button>
+                    <span class="counter">{{ item.quantity }}</span>
+                    <button class="plus">+</button>
+                </div>
+            </div>
+            
+            <button class="remove-from-cart">Удалить</button>
+        </div>
+        
+    {% endfor %}
+    
+    <div class="cart-summary">
+        <div class="cart-actions">
+            <button id="clear-cart-button" class="clear-cart-btn">Очистить корзину</button>
+        
+            <div id="clear-cart-confirm" class="clear-confirm hidden">
+                <p>Вы уверены?</p>
+                <div class="confirm-buttons">
+                    <button id="confirm-clear-yes" class="confirm-btn yes">Да</button>
+                    <button id="confirm-clear-no" class="confirm-btn no">Нет</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cart-total-items">Товаров: <span id="total-items-count">{{ items_count }}</span></div>
+        <div class="cart-total-sum">Итого: <span id="total-sum">{{ "%.2f"|format(cart_total) }}</span> руб.</div>
+    </div>
+{% else %}
+    <p>Корзина пуста</p>
+{% endif %}

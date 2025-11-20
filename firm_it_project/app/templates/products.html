@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}Товары{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/products.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/automat.css')}}">
+
+
+
+<div class="store-page-wrapper">
+
+  
+<div class="store-products-grid">
+  {% for product in products %}
+  
+    <div class="store-product-item">
+      
+      <div class="store-product-image">
+        <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
+      </div>
+      <div class="store-product-info">
+        <h3 class="store-product-name">{{ product.name }}</h3>
+        <p class="store-product-description">{{ product.description }}</p>
+
+        <form class="store-product-form">
+          {% if product.variants %}
+            <select name="variant_id" class="store-product-variant">
+              {% for variant in product.variants %}
+                <option value="{{ variant.id }}" data-price="{{ variant.price }}">
+                  {{ variant.name }}
+                </option>
+              {% endfor %}
+            </select>
+            <div class="price-tag-a">
+              <span class="current-price">{{ product.variants[0].price }}</span> ₽
+            </div>
+          {% else %}
+            <div class="price-tag-a">
+              <span class="current-price">{{ product.price }}</span> ₽
+            </div>
+          {% endif %}
+          
+          <input type="hidden" name="product_id" value="{{ product.id }}">
+          <button type="submit" class="store-product-add-btn">Добавить в корзину</button>
+        </form>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Удаляем старый обработчик форм
+    
+    // Новый обработчик для кнопок
+    document.querySelectorAll('.store-product-add-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const form = this.closest('form');
+            const productId = form.querySelector('input[name="product_id"]').value;
+            const variantSelect = form.querySelector('select[name="variant_id"]');
+            const variantId = variantSelect ? variantSelect.value : null;
+            
+            // Добавляем префикс к ID
+            const prefixedId = `prd_${productId}`;
+            
+            fetch(`/add_product_to_cart/${prefixedId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ variant_id: variantId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Визуальный эффект
+                    this.classList.add('added');
+                    setTimeout(() => this.classList.remove('added'), 500);
+                    
+                    // Обновляем счетчик
+                    const counter = document.querySelector('.cart-count');
+                    if (counter) {
+                        counter.textContent = data.cart_total;
+                        counter.classList.add('pulse');
+                        setTimeout(() => counter.classList.remove('pulse'), 500);
+                    }
+                }
+            });
+        });
+    });
+  
+      // Обновляем варианты при изменении селекта
+      document.querySelectorAll('.store-product-variant').forEach(select => {
+          select.addEventListener('change', function() {
+              const selectedOption = this.options[this.selectedIndex];
+              const price = selectedOption.getAttribute('data-price');
+              const card = this.closest('.store-product-item');
+              const priceSpan = card.querySelector('.current-price');
+              priceSpan.textContent = price;
+              
+              // Обновляем data-variant-id на кнопке
+              const button = card.querySelector('.store-add-to-cart-btn');
+              button.setAttribute('data-variant-id', selectedOption.value);
+          });
+      });
+  
+      // Анимация появления карточек
+      const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                  entry.target.classList.add('show');
+                  observer.unobserve(entry.target);
+              }
+          });
+      }, { threshold: 0.1 });
+  
+      document.querySelectorAll('.store-product-item').forEach(card => {
+          observer.observe(card);
+      });
+  });
+  </script>
+
+<!-- <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const cards = document.querySelectorAll('.store-product-item');
+  
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target); // чтобы анимация сработала только один раз
+        }
+      });
+    }, { threshold: 0.1 });
+  
+    cards.forEach(card => {
+      observer.observe(card);
+    });
+  });
+  </script>
+
+<script>
+  document.querySelectorAll('.store-product-form').forEach(form => {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+  
+      const formData = new FormData(this);
+      const productId = formData.get('product_id');
+      const variantSelect = this.querySelector('select[name="variant_id"]');
+      const variantId = variantSelect ? variantSelect.value : null;
+  
+      fetch(`/add_product_to_cart/${productId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ variant_id: variantId })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Добавлено в корзину!');
+        } else {
+          alert('Не удалось добавить в корзину.');
+        }
+      })
+      .catch(error => {
+        console.error('Ошибка при добавлении в корзину:', error);
+        alert('Не удалось добавить в корзину.');
+      });
+    });
+  });
+</script> -->
+  
+
+<script src="{{ url_for('static', filename='js/automat.js') }}"></script>
+<script src="{{ url_for('static', filename='js/product.js')}}"></script>
+
+{% endblock %}
